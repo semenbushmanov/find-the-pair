@@ -2,7 +2,7 @@ import { COLORS, TILES_NUMBER } from "./constants";
 
 export const createTiles = () => {
   const tiles = [];
-  const colors = [...COLORS];
+  const colors = [...COLORS, ...COLORS];
 
   for (let i = 0; i < TILES_NUMBER; i++) {
     const pickedColor = Math.floor(Math.random() * colors.length) + 1;
