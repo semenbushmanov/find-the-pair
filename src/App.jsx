@@ -47,7 +47,7 @@ function App() {
           ));
 
           setBusy(false);
-        }, 500);
+        }, 600);
       } else {
         setBusy(true);
 
@@ -55,7 +55,7 @@ function App() {
           setTiles(tiles.map(tile => ({ ...tile, flipped: false })));
 
           setBusy(false);
-        }, 500);
+        }, 600);
       }
       
       setFlipped([]);
