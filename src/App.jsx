@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import Tile from './components/Tile';
 import { TILES_NUMBER } from './utils/constants';
 import { createTiles } from './utils/createTiles';
@@ -8,6 +8,12 @@ function App() {
   const [flipped, setFlipped] = useState([]);
   const [matched, setMatched] = useState([]);
   const [victory, setVictory] = useState(false);
+
+  useEffect(() => {
+    if (matched.length === TILES_NUMBER) {
+      setVictory(true);
+    }
+  }, [matched]);
 
   const initBoard = () => {
     const tiles = createTiles();
@@ -29,16 +35,11 @@ function App() {
       const [firstTileKey, secondTileKey] = updatedFlip;
       if (tiles[firstTileKey].color === tiles[secondTileKey].color) {
         setTimeout(() => {
-          const matchedTiles = matched.length + 2;
           setMatched([...matched, firstTileKey, secondTileKey]);
 
           setTiles(tiles.map(tile =>
             tile.key === firstTileKey || tile.key === secondTileKey ? { ...tile, matched: true } : tile
           ));
-
-          if (matchedTiles == TILES_NUMBER || matched.length == TILES_NUMBER) {
-            setVictory(true);
-          }
         }, 500);
       } else {
         setTimeout(() => {
