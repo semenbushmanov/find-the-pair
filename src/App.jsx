@@ -8,6 +8,7 @@ function App() {
   const [flipped, setFlipped] = useState([]);
   const [matched, setMatched] = useState([]);
   const [victory, setVictory] = useState(false);
+  const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     if (matched.length === TILES_NUMBER) {
@@ -24,6 +25,8 @@ function App() {
   };
 
   const handleTileClick = (key) => {
+    if (busy) return;
+
     const updatedFlip = [...flipped, key];
     setFlipped([...flipped, key]);
 
@@ -34,16 +37,24 @@ function App() {
     if (updatedFlip.length > 1) {
       const [firstTileKey, secondTileKey] = updatedFlip;
       if (tiles[firstTileKey].color === tiles[secondTileKey].color) {
+        setBusy(true);
+
         setTimeout(() => {
           setMatched([...matched, firstTileKey, secondTileKey]);
 
           setTiles(tiles.map(tile =>
             tile.key === firstTileKey || tile.key === secondTileKey ? { ...tile, matched: true } : tile
           ));
+
+          setBusy(false);
         }, 500);
       } else {
+        setBusy(true);
+
         setTimeout(() => {
           setTiles(tiles.map(tile => ({ ...tile, flipped: false })));
+
+          setBusy(false);
         }, 500);
       }
       
